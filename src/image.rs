@@ -91,7 +91,7 @@ impl VipsImage {
         unsafe {
             let f = utils::new_c_string(filename)?;
             let res =
-                bindings::vips_image_new_from_file_raw(f.as_ptr(), x_size, y_size, bands, offset);
+                bindings::vips_image_new_from_file_raw(f.as_ptr(), x_size, y_size, bands, offset.try_into().unwrap());
             vips_image_result(
                 res,
                 Error::InitializationError("Could not initialise VipsImage from file"),
@@ -124,7 +124,7 @@ impl VipsImage {
             let options = utils::new_c_string(option_str)?;
             let res = bindings::vips_image_new_from_buffer(
                 buffer.as_ptr() as *const c_void,
-                buffer.len() as u64,
+                (buffer.len() as u64).try_into().unwrap(),
                 options.as_ptr(),
                 NULL,
             );
@@ -146,7 +146,7 @@ impl VipsImage {
             if let Some(format) = format.to_i32() {
                 let res = bindings::vips_image_new_from_memory(
                     buffer.as_ptr() as *const c_void,
-                    buffer.len() as u64,
+                    (buffer.len() as u64).try_into().unwrap(),
                     width,
                     height,
                     bands,
@@ -435,7 +435,7 @@ impl VipsImage {
 
     pub fn image_write_to_buffer(&self, suffix: &str) -> Result<Vec<u8>> {
         unsafe {
-            let mut buffer_buf_size: u64 = 0;
+            let mut buffer_buf_size = 0;
             let mut buffer_out: *mut c_void = null_mut();
             let suffix_c_str = utils::new_c_string(suffix)?;
             let res = bindings::vips_image_write_to_buffer(
