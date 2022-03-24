@@ -15,7 +15,7 @@ pub mod ops;
 mod utils;
 
 use error::Error;
-use std::ffi::*;
+use std::{convert::TryInto, ffi::*};
 
 pub use image::*;
 
@@ -23,7 +23,7 @@ pub type Result<T> = std::result::Result<T, error::Error>;
 
 pub struct VipsApp;
 
-/// That's the main type of this crate. Use it to initialize the system 
+/// That's the main type of this crate. Use it to initialize the system
 impl VipsApp {
     /// default constructor of a VIpsApp instance which will disable memory leak debugging
     pub fn default(name: &str) -> Result<VipsApp> {
@@ -42,20 +42,20 @@ impl VipsApp {
             bindings::vips_progress_set(if flag { 1 } else { 0 });
         }
     }
-    
+
     pub fn get_disc_threshold(&self) -> u64 {
-        unsafe { bindings::vips_get_disc_threshold() }
+        unsafe { bindings::vips_get_disc_threshold().into() }
     }
-    
+
     pub fn version_string(&self) -> Result<&str> {
         unsafe {
             let version = CStr::from_ptr(bindings::vips_version_string());
             version
-            .to_str()
-            .map_err(|_| Error::InitializationError("Error initializing string"))
+                .to_str()
+                .map_err(|_| Error::InitializationError("Error initializing string"))
         }
     }
-    
+
     pub fn thread_shutdown(&self) {
         unsafe {
             bindings::vips_thread_shutdown();
@@ -129,26 +129,20 @@ impl VipsApp {
 
     pub fn cache_set_max_mem(&self, max: u64) {
         unsafe {
-            bindings::vips_cache_set_max_mem(max);
+            bindings::vips_cache_set_max_mem(max.try_into().unwrap());
         }
     }
 
     pub fn cache_get_max(&self) -> i32 {
-        unsafe {
-            bindings::vips_cache_get_max()
-        }
+        unsafe { bindings::vips_cache_get_max() }
     }
 
     pub fn cache_get_max_mem(&self) -> u64 {
-        unsafe {
-            bindings::vips_cache_get_max_mem()
-        }
+        unsafe { bindings::vips_cache_get_max_mem().into() }
     }
 
     pub fn cache_get_size(&self) -> i32 {
-        unsafe {
-            bindings::vips_cache_get_size()
-        }
+        unsafe { bindings::vips_cache_get_size() }
     }
 
     pub fn cache_set_max_files(&self, max: i32) {
@@ -158,9 +152,7 @@ impl VipsApp {
     }
 
     pub fn cache_get_max_files(&self) -> i32 {
-        unsafe {
-            bindings::vips_cache_get_max_files()
-        }
+        unsafe { bindings::vips_cache_get_max_files() }
     }
 
     pub fn vips_cache_set_dump(&self, flag: bool) {
@@ -184,32 +176,24 @@ impl VipsApp {
 
     /// get the number of worker threads that vips is operating
     pub fn concurency_get(&self) -> i32 {
-        unsafe {
-            bindings::vips_concurrency_get()
-        }
+        unsafe { bindings::vips_concurrency_get() }
     }
 
     pub fn tracked_get_mem(&self) -> u64 {
-        unsafe {
-            bindings::vips_tracked_get_mem()
-        }
+        unsafe { bindings::vips_tracked_get_mem().into() }
     }
 
     pub fn tracked_get_mem_highwater(&self) -> u64 {
-        unsafe {
-            bindings::vips_tracked_get_mem_highwater()
-        }
+        unsafe { bindings::vips_tracked_get_mem_highwater().into() }
     }
 
     pub fn tracked_get_allocs(&self) -> i32 {
-        unsafe {
-            bindings::vips_tracked_get_allocs()
-        }
+        unsafe { bindings::vips_tracked_get_allocs() }
     }
 
     pub fn pipe_read_limit_set(&self, limit: i64) {
         unsafe {
-            bindings::vips_pipe_read_limit_set(limit);
+            bindings::vips_pipe_read_limit_set(limit.try_into().unwrap());
         }
     }
 }

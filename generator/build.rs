@@ -549,7 +549,7 @@ impl Parameter {
     fn declare_out_variable(&self) -> String {
         match self.param_type {
             ParamType::ArrayByte { .. } => format!(
-                "let mut {}_buf_size: u64 = 0;\nlet mut {}_out: {} = null_mut();",
+                "let mut {}_buf_size = 0;\nlet mut {}_out: {} = null_mut();",
                 self.name,
                 self.name,
                 self.param_type.vips_out_type()

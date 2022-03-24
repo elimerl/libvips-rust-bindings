@@ -9054,8 +9054,12 @@ pub fn radload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_radload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_radload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -9125,7 +9129,7 @@ pub fn radload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_radload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             flags_in_name.as_ptr(),
             flags_in,
@@ -9371,8 +9375,12 @@ pub fn svgload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_svgload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_svgload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -9467,7 +9475,7 @@ pub fn svgload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_svgload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             dpi_in_name.as_ptr(),
             dpi_in,
@@ -9613,8 +9621,12 @@ pub fn gifload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_gifload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_gifload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -9698,7 +9710,7 @@ pub fn gifload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_gifload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             page_in_name.as_ptr(),
             page_in,
@@ -9939,8 +9951,12 @@ pub fn pngload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_pngload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_pngload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -10010,7 +10026,7 @@ pub fn pngload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_pngload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             flags_in_name.as_ptr(),
             flags_in,
@@ -10247,8 +10263,12 @@ pub fn jpegload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_jpegload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_jpegload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -10336,7 +10356,7 @@ pub fn jpegload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_jpegload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             shrink_in_name.as_ptr(),
             shrink_in,
@@ -10489,8 +10509,12 @@ pub fn webpload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_webpload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_webpload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -10581,7 +10605,7 @@ pub fn webpload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_webpload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             page_in_name.as_ptr(),
             page_in,
@@ -10869,8 +10893,12 @@ pub fn tiffload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_tiffload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_tiffload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -10972,7 +11000,7 @@ pub fn tiffload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_tiffload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             page_in_name.as_ptr(),
             page_in,
@@ -11266,8 +11294,12 @@ pub fn heifload_buffer(buffer: &[u8]) -> Result<VipsImage> {
         let buffer_in: *mut c_void = buffer.as_ptr() as *mut c_void;
         let mut out_out: *mut bindings::VipsImage = null_mut();
 
-        let vips_op_response =
-            bindings::vips_heifload_buffer(buffer_in, buffer.len() as u64, &mut out_out, NULL);
+        let vips_op_response = bindings::vips_heifload_buffer(
+            buffer_in,
+            (buffer.len() as u64).try_into().unwrap(),
+            &mut out_out,
+            NULL,
+        );
         utils::result(
             vips_op_response,
             VipsImage { ctx: out_out },
@@ -11362,7 +11394,7 @@ pub fn heifload_buffer_with_opts(
 
         let vips_op_response = bindings::vips_heifload_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             page_in_name.as_ptr(),
             page_in,
@@ -12421,14 +12453,14 @@ pub fn radsave_with_opts(
 pub fn radsave_buffer(inp: &VipsImage) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let vips_op_response =
             bindings::vips_radsave_buffer(inp_in, &mut buffer_out, &mut buffer_buf_size, NULL);
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::RadsaveBufferError,
         )
     }
@@ -12467,7 +12499,7 @@ pub fn radsave_buffer_with_opts(
 ) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let strip_in: i32 = if radsave_buffer_options.strip { 1 } else { 0 };
@@ -12495,7 +12527,7 @@ pub fn radsave_buffer_with_opts(
         );
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::RadsaveBufferError,
         )
     }
@@ -12966,14 +12998,14 @@ pub fn pngsave_with_opts(
 pub fn pngsave_buffer(inp: &VipsImage) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let vips_op_response =
             bindings::vips_pngsave_buffer(inp_in, &mut buffer_out, &mut buffer_buf_size, NULL);
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::PngsaveBufferError,
         )
     }
@@ -13048,7 +13080,7 @@ pub fn pngsave_buffer_with_opts(
 ) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let compression_in: i32 = pngsave_buffer_options.compression;
@@ -13120,7 +13152,7 @@ pub fn pngsave_buffer_with_opts(
         );
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::PngsaveBufferError,
         )
     }
@@ -13461,14 +13493,14 @@ pub fn jpegsave_with_opts(
 pub fn jpegsave_buffer(inp: &VipsImage) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let vips_op_response =
             bindings::vips_jpegsave_buffer(inp_in, &mut buffer_out, &mut buffer_buf_size, NULL);
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::JpegsaveBufferError,
         )
     }
@@ -13545,7 +13577,7 @@ pub fn jpegsave_buffer_with_opts(
 ) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let q_in: i32 = jpegsave_buffer_options.q;
@@ -13638,7 +13670,7 @@ pub fn jpegsave_buffer_with_opts(
         );
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::JpegsaveBufferError,
         )
     }
@@ -14189,14 +14221,14 @@ pub fn webpsave_with_opts(
 pub fn webpsave_buffer(inp: &VipsImage) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let vips_op_response =
             bindings::vips_webpsave_buffer(inp_in, &mut buffer_out, &mut buffer_buf_size, NULL);
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::WebpsaveBufferError,
         )
     }
@@ -14284,7 +14316,7 @@ pub fn webpsave_buffer_with_opts(
 ) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let q_in: i32 = webpsave_buffer_options.q;
@@ -14383,7 +14415,7 @@ pub fn webpsave_buffer_with_opts(
         );
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::WebpsaveBufferError,
         )
     }
@@ -14870,14 +14902,14 @@ pub fn tiffsave_with_opts(
 pub fn tiffsave_buffer(inp: &VipsImage) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let vips_op_response =
             bindings::vips_tiffsave_buffer(inp_in, &mut buffer_out, &mut buffer_buf_size, NULL);
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::TiffsaveBufferError,
         )
     }
@@ -15017,7 +15049,7 @@ pub fn tiffsave_buffer_with_opts(
 ) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let compression_in: i32 = tiffsave_buffer_options.compression as i32;
@@ -15165,7 +15197,7 @@ pub fn tiffsave_buffer_with_opts(
         );
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::TiffsaveBufferError,
         )
     }
@@ -15285,14 +15317,14 @@ pub fn heifsave_with_opts(
 pub fn heifsave_buffer(inp: &VipsImage) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let vips_op_response =
             bindings::vips_heifsave_buffer(inp_in, &mut buffer_out, &mut buffer_buf_size, NULL);
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::HeifsaveBufferError,
         )
     }
@@ -15347,7 +15379,7 @@ pub fn heifsave_buffer_with_opts(
 ) -> Result<Vec<u8>> {
     unsafe {
         let inp_in: *mut bindings::VipsImage = inp.ctx;
-        let mut buffer_buf_size: u64 = 0;
+        let mut buffer_buf_size = 0;
         let mut buffer_out: *mut c_void = null_mut();
 
         let q_in: i32 = heifsave_buffer_options.q;
@@ -15394,7 +15426,7 @@ pub fn heifsave_buffer_with_opts(
         );
         utils::result(
             vips_op_response,
-            utils::new_byte_array(buffer_out, buffer_buf_size),
+            utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
             Error::HeifsaveBufferError,
         )
     }
@@ -15673,7 +15705,7 @@ pub fn thumbnail_buffer(buffer: &[u8], width: i32) -> Result<VipsImage> {
 
         let vips_op_response = bindings::vips_thumbnail_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             width_in,
             NULL,
@@ -15802,7 +15834,7 @@ pub fn thumbnail_buffer_with_opts(
 
         let vips_op_response = bindings::vips_thumbnail_buffer(
             buffer_in,
-            buffer.len() as u64,
+            (buffer.len() as u64).try_into().unwrap(),
             &mut out_out,
             width_in,
             option_string_in_name.as_ptr(),

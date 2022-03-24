@@ -90,8 +90,13 @@ impl VipsImage {
     ) -> Result<VipsImage> {
         unsafe {
             let f = utils::new_c_string(filename)?;
-            let res =
-                bindings::vips_image_new_from_file_raw(f.as_ptr(), x_size, y_size, bands, offset.try_into().unwrap());
+            let res = bindings::vips_image_new_from_file_raw(
+                f.as_ptr(),
+                x_size,
+                y_size,
+                bands,
+                offset.try_into().unwrap(),
+            );
             vips_image_result(
                 res,
                 Error::InitializationError("Could not initialise VipsImage from file"),
@@ -447,7 +452,7 @@ impl VipsImage {
             );
             utils::result(
                 res,
-                utils::new_byte_array(buffer_out, buffer_buf_size),
+                utils::new_byte_array(buffer_out, buffer_buf_size.try_into().unwrap()),
                 Error::IOError("Cannot write content to buffer"),
             )
         }
@@ -455,9 +460,10 @@ impl VipsImage {
 
     pub fn image_write_to_memory(&self) -> Vec<u8> {
         unsafe {
-            let mut buffer_buf_size: u64 = 0;
+            let mut buffer_buf_size = 0;
             let buffer_out = bindings::vips_image_write_to_memory(self.ctx, &mut buffer_buf_size);
-            let buf = std::slice::from_raw_parts(buffer_out as *mut u8, buffer_buf_size as usize).to_vec();
+            let buf = std::slice::from_raw_parts(buffer_out as *mut u8, buffer_buf_size as usize)
+                .to_vec();
             bindings::g_free(buffer_out);
             buf
         }
@@ -577,7 +583,7 @@ impl VipsSource {
         unsafe {
             let res = bindings::vips_source_new_from_memory(
                 buffer.as_ptr() as *const c_void,
-                buffer.len() as u64,
+                (buffer.len() as u64).try_into().unwrap(),
             );
             vips_source_result(
                 res,
@@ -617,18 +623,14 @@ impl VipsSource {
     pub fn decode(&mut self) -> Result<()> {
         unsafe {
             let result = bindings::vips_source_decode(self.ctx);
-            utils::result(
-                result,
-                (),
-                Error::OperationError("Error on vips decode"),
-            )
+            utils::result(result, (), Error::OperationError("Error on vips decode"))
         }
     }
 
     pub fn read(&mut self, length: u64) -> Result<Vec<u8>> {
         unsafe {
             let bytes: *mut c_void = null_mut();
-            let result = bindings::vips_source_read(self.ctx, bytes, length);
+            let result = bindings::vips_source_read(self.ctx, bytes, length.try_into().unwrap());
             if result != -1 {
                 let buffer =
                     Vec::from_raw_parts(bytes as *mut u8, result as usize, result as usize);
@@ -645,11 +647,11 @@ impl VipsSource {
 
     pub fn seek(&mut self, offset: i64, whence: i32) -> Result<i64> {
         unsafe {
-            let result = bindings::vips_source_seek(self.ctx, offset, whence);
+            let result = bindings::vips_source_seek(self.ctx, offset.try_into().unwrap(), whence);
             if result == -1 {
                 Err(Error::OperationError("Error on vips seek"))
             } else {
-                Ok(result)
+                Ok(result.into())
             }
         }
     }
@@ -671,7 +673,7 @@ impl VipsSource {
             if result == -1 {
                 Err(Error::OperationError("Error on vips length"))
             } else {
-                Ok(result)
+                Ok(result.into())
             }
         }
     }
@@ -680,7 +682,7 @@ impl VipsSource {
 impl<'a> VipsSource {
     pub fn map(&'a self) -> Result<&'a [u8]> {
         unsafe {
-            let length: *mut u64 = null_mut();
+            let length = null_mut();
             let result = bindings::vips_source_map(self.ctx, length);
             if length.is_null() {
                 Err(Error::OperationError("Error on vips map"))
@@ -742,7 +744,7 @@ impl VipsTarget {
             let res = bindings::vips_target_write(
                 self.ctx,
                 buffer.as_ptr() as *const c_void,
-                buffer.len() as u64,
+                (buffer.len() as u64).try_into().unwrap(),
             );
             if res == -1 {
                 Err(Error::OperationError("Could not write to buffer"))
@@ -771,7 +773,8 @@ impl VipsTarget {
 
     pub fn writes(&mut self, text: &str) -> Result<()> {
         unsafe {
-            let cstr = CString::new(text).map_err(|_| Error::OperationError("Cannot initialize C string"))?;
+            let cstr = CString::new(text)
+                .map_err(|_| Error::OperationError("Cannot initialize C string"))?;
             let res = bindings::vips_target_writes(self.ctx, cstr.as_ptr());
             if res == -1 {
                 Err(Error::OperationError("Could not write to buffer"))
@@ -783,7 +786,8 @@ impl VipsTarget {
 
     pub fn write_amp(&mut self, text: &str) -> Result<()> {
         unsafe {
-            let cstr = CString::new(text).map_err(|_| Error::OperationError("Cannot initialize C string"))?;
+            let cstr = CString::new(text)
+                .map_err(|_| Error::OperationError("Cannot initialize C string"))?;
             let res = bindings::vips_target_write_amp(self.ctx, cstr.as_ptr());
             if res == -1 {
                 Err(Error::OperationError("Could not write to buffer"))
@@ -930,7 +934,7 @@ impl Drop for VipsTarget {
 impl Into<Vec<u8>> for VipsBlob {
     fn into(self) -> Vec<u8> {
         unsafe {
-            let mut size: u64 = 0;
+            let mut size = 0;
             let bytes = bindings::vips_blob_get(self.ctx, &mut size);
             Vec::from_raw_parts(bytes as *mut u8, size as usize, size as usize)
         }
