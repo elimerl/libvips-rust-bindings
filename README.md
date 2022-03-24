@@ -1,3 +1,4 @@
+## NOTE: I fixed the windows stuff using `cargo fix` and find and replace so probably don't use this fork. But also who uses Linux???? I'm going back to JS
 # libvips-rust-bindings
 Rust bindings for libvips. Generated from `version 8.10`.
 
